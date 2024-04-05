@@ -1,6 +1,26 @@
 import random
 
-def guess_the_number(min_value=1, max_value=20):
+def guess_the_number():
+    while True:
+        try:
+            min_value = int(input("Enter the minimum value for the range (should be between 1 and 10): "))
+            if min_value < 1 or min_value > 10:
+                print("Invalid input! Please enter a number between 1 and 10.")
+                continue
+            break
+        except ValueError:
+            print("Invalid input! Please enter a valid number.")
+    
+    while True:
+        try:
+            max_value = int(input(f"Enter the maximum value for the range (should be greater than {min_value} and less than or equal to 20): "))
+            if max_value <= min_value or max_value > 20:
+                print(f"Invalid input! Please enter a number greater than {min_value} and less than or equal to 20.")
+                continue
+            break
+        except ValueError:
+            print("Invalid input! Please enter a valid number.")
+
     # Generate a random number between min_value and max_value
     secret_number = random.randint(min_value, max_value)
     attempts = 0
@@ -10,10 +30,14 @@ def guess_the_number(min_value=1, max_value=20):
 
     while attempts < max_attempts:
         try:
-            guess = int(input("Enter your guess: "))
+            guess = int(input(f"Enter your guess (should be between {min_value} and {max_value}): "))
             attempts += 1
 
-            if guess < secret_number:
+            if guess <= min_value:
+                print("Please enter a number greater than the minimum value.")
+            elif guess > max_value:
+                print(f"Please enter a number less than or equal to {max_value}.")
+            elif guess < secret_number:
                 print(f"Too low! Try again. You have {max_attempts - attempts} attempts left.")
             elif guess > secret_number:
                 print(f"Too high! Try again. You have {max_attempts - attempts} attempts left.")
@@ -28,6 +52,4 @@ def guess_the_number(min_value=1, max_value=20):
     print(f"Sorry, you've run out of attempts! The correct number was {secret_number}.")
 
 if __name__ == "__main__":
-    min_value = int(input("Enter the minimum value for the range (default is 1): ") or 1)
-    max_value = int(input("Enter the maximum value for the range (default is 20): ") or 20)
-    guess_the_number(min_value, max_value)
+    guess_the_number()
